@@ -1,8 +1,8 @@
-const path = require('path');
+const path = require("path");
 
 const getLocalModulePath = (libName, filePath) => {
-  return path.resolve('../node_modules', libName, filePath)
-}
+  return path.resolve("../node_modules", libName, filePath);
+};
 
 module.exports = (req, res) => {
   const libName = req.params[0];
@@ -11,7 +11,7 @@ module.exports = (req, res) => {
 
   let filePath;
 
-  if (libName === 'fire.app') {
+  if (libName === "fire.app") {
     filePath = getLocalModulePath(`@popit/${libName}`, libFilePath);
   } else {
     filePath = getLocalModulePath(libName, libFilePath);
@@ -20,4 +20,4 @@ module.exports = (req, res) => {
   console.log(filePath);
 
   res.sendFile(filePath);
-}
+};

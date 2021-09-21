@@ -1,15 +1,15 @@
-const path = require('path');
+const path = require("path");
 
-const getCleanName = (name) => name.replace(/^@[-\w]+\//, ""); 
+const getCleanName = (name) => name.replace(/^@[-\w]+\//, "");
 
 const getModuleData = () => {
-  const moduleData = require(path.resolve('package'));
+  const moduleData = require(path.resolve("package"));
 
   return {
     version: moduleData.version,
     entryPoint: moduleData.main,
     cleanName: getCleanName(moduleData.name),
-  }
+  };
 };
 
 module.exports.getModuleData = getModuleData;

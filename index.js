@@ -1,13 +1,12 @@
-const express = require('express');
-const webpack = require('webpack');
-const path = require('path');
-const webpackDevMiddleWare = require('webpack-dev-middleware');
-const { getModuleData } = require('./utils/module-package');
-const applyHbs = require('@popit/templates');
+const express = require("express");
+const webpack = require("webpack");
+const path = require("path");
+const webpackDevMiddleWare = require("webpack-dev-middleware");
+const { getModuleData } = require("./utils/module-package");
+const applyHbs = require("@popit/templates");
 const app = express();
 
-const staticUrl = '/static';
-
+const staticUrl = "/static";
 
 const startServer = ({ port }) => {
   const moduleData = getModuleData();
@@ -17,58 +16,63 @@ const startServer = ({ port }) => {
   console.log(appPath);
 
   const compiler = webpack({
-    mode: 'development',
-    entry: './src/index.tsx',
+    mode: "development",
+    entry: "./src/index.tsx",
     output: {
-      filename: 'index.js',
-      path: path.resolve('dist'),
-      libraryTarget: 'umd',
-      publicPath: '/static/dummy/1.0.0/'
+      filename: "index.js",
+      path: path.resolve("dist"),
+      libraryTarget: "umd",
+      publicPath: "/static/dummy/1.0.0/",
     },
     resolve: {
-      extensions: ['.tsx', '.js', '.ts', '.jsx', '.json ']
+      extensions: [".tsx", ".js", ".ts", ".jsx", ".json "],
     },
     module: {
-      rules: [{
-        test: /\.tsx?$/,
-        loader: 'ts-loader'
-      }]
-    } 
+      rules: [
+        {
+          test: /\.tsx?$/,
+          loader: "ts-loader",
+        },
+      ],
+    },
   });
 
-  app.use(webpackDevMiddleWare(compiler, {
-    publicPath: '/static/dummy/1.0.0/'
-  }));
+  app.use(
+    webpackDevMiddleWare(compiler, {
+      publicPath: "/static/dummy/1.0.0/",
+    })
+  );
 
   app.get(appPath, function (req, res) {
-    res.render('index', {
+    res.render("index", {
       staticUrl: staticUrl,
-      fireAppVersion: '1.0.0/dist',
-      apps: { 
-        dummy: { 
-          version: '1.0.0',
-        } 
+      fireAppVersion: "1.0.0/dist",
+      apps: {
+        dummy: {
+          version: "1.0.0",
+        },
       },
       navigations: {
-        'dummy': '/dummy',
-        'dummy.login': '/dummy/login',
+        dummy: "/dummy",
+        "dummy.login": "/dummy/login",
       },
       config: {},
-      title: 'Popit app',
+      title: "Popit app",
     });
   });
 
   app.use(
     staticUrl,
-    express.Router().get(
-      /\/([.-\w]+)\/([.-\w\d]+)\/(.*)/, 
-      require('./utils/get-module')
-    )
+    express
+      .Router()
+      .get(/\/([.-\w]+)\/([.-\w\d]+)\/(.*)/, require("./utils/get-module"))
   );
 
   app.listen(port, () => {
-    console.log(`❤️❤️❤️  Server started listening on http://localhost:${port}${appPath}  ❤️❤️❤️`);
-  })
-}
+    console.log(
+      `❤️❤️❤️  Server started listening on http://localhost:${port}${appPath}  ❤️❤️❤️`
+    );
+  });
+};
 
 module.exports = { startServer };
