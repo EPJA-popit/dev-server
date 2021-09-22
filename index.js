@@ -5,6 +5,8 @@ const webpackDevMiddleWare = require("webpack-dev-middleware");
 const { getModuleData } = require("./utils/module-package");
 const applyHbs = require("@popit/templates");
 const app = express();
+const getProjectConfig = require("./utils/get-module-config");
+const getModuleConfig = require("./utils/get-module-config");
 
 const staticUrl = "/static";
 
@@ -69,25 +71,23 @@ const startServer = ({ port }) => {
     })
   );
 
+  const config = getModuleConfig();
+
   app.get(appPath, function (req, res) {
     console.log("dev-server/index.js:L64");
 
     res.render("index", {
       staticUrl: staticUrl,
-      fireAppVersion: "1.0.0/dist",
+      fireAppVersion: "1.0.0/dist", // TODO: why dist here?
       apps: {
-        dummy: {
-          version: "1.0.0",
-        },
-        example: {
-          version: "1.0.0",
-        },
+        ...(config.apps || {}),
+        [moduleData.cleanName]: { version: "1.0.0" },
       },
       navigation: {
-        dummy: "/dummy",
-        "dummy.login": "/dummy/login",
+        ...(config.navigation || {}),
+        [moduleData.cleanName]: appPath,
       },
-      config: {},
+      config: { ...(config.config || {}) },
       title: "Popit app",
     });
   });
