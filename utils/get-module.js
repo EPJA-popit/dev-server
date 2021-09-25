@@ -1,7 +1,7 @@
 const getLocalModulePath = (libName, filePath) => {
   const path = require("path");
 
-  return path.resolve("../node_modules", libName, filePath);
+  return path.resolve("./node_modules", libName, filePath);
 };
 
 module.exports = (req, res) => {
