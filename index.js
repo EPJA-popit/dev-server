@@ -65,7 +65,8 @@ const startServer = ({ port }) => {
   //   },
   // }
 
-  const cfg = require("@popit/webpack-config");
+  let cfg = require("@popit/webpack-config");
+  cfg = { ...cfg, entry: moduleData.entryPoint };
 
   const compiler = webpack(cfg);
 
