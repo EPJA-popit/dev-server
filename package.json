@@ -19,6 +19,7 @@
   "homepage": "https://github.com/EPJA-popit/dev-server#readme",
   "dependencies": {
     "@popit/templates": "^1.1.0",
+    "@popit/webpack-config": "^1.1.3",
     "express": "^4.17.1",
     "webpack": "^5.52.0",
     "webpack-dev-middleware": "^5.2.0"

@@ -19,51 +19,55 @@ const startServer = ({ port }) => {
 
   console.log(appPath);
 
-  const compiler = webpack({
-    mode: "development",
-    devtool: "eval-source-map",
-    entry: moduleData.entryPoint,
-    output: {
-      filename: "index.js",
-      path: path.resolve("dist"),
-      libraryTarget: "umd",
-      publicPath: `/static/${moduleData.cleanName}/1.0.0/`,
-    },
-    resolve: {
-      extensions: [".tsx", ".js", ".ts", ".jsx", ".json"],
-    },
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          loader: "ts-loader",
-        },
-        {
-          test: /\.js?$/,
-          loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-react",
-              [
-                "babel-preset-react-app",
-                {
-                  helpers: true,
-                },
-              ],
-            ],
-          },
-        },
-        {
-          test: /\.svg?$/,
-          loader: "file-loader",
-        },
-        {
-          test: /\.css$/i,
-          use: ["style-loader", "css-loader"],
-        },
-      ],
-    },
-  });
+  // const cfg = {
+  //   mode: "development",
+  //   devtool: "eval-source-map",
+  //   entry: moduleData.entryPoint,
+  //   output: {
+  //     filename: "index.js",
+  //     path: path.resolve("dist"),
+  //     libraryTarget: "umd",
+  //     publicPath: `/static/${moduleData.cleanName}/1.0.0/`,
+  //   },
+  //   resolve: {
+  //     extensions: [".tsx", ".js", ".ts", ".jsx", ".json"],
+  //   },
+  //   module: {
+  //     rules: [
+  //       {
+  //         test: /\.tsx?$/,
+  //         loader: "ts-loader",
+  //       },
+  //       {
+  //         test: /\.js?$/,
+  //         loader: "babel-loader",
+  //         options: {
+  //           presets: [
+  //             "@babel/preset-react",
+  //             [
+  //               "babel-preset-react-app",
+  //               {
+  //                 helpers: true,
+  //               },
+  //             ],
+  //           ],
+  //         },
+  //       },
+  //       {
+  //         test: /\.svg?$/,
+  //         loader: "file-loader",
+  //       },
+  //       {
+  //         test: /\.css$/i,
+  //         use: ["style-loader", "css-loader"],
+  //       },
+  //     ],
+  //   },
+  // }
+
+  const cfg = require("@popit/webpack-config");
+
+  const compiler = webpack(cfg);
 
   app.use(
     webpackDevMiddleWare(compiler, {
